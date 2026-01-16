@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absence Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>⚙️ Absence Details</h1>
+            <p>Review justification and supporting documents</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/admin/absences">← Back to All Absences</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Absence Information</h2>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div>
+                        <p style="color: #6c757d; margin-bottom: 0.25rem;">Student</p>
+                        <p style="font-weight: 600;"
+                            th:text="${absence.student.firstName + ' ' + absence.student.lastName}"></p>
+                    </div>
+                    <div>
+                        <p style="color: #6c757d; margin-bottom: 0.25rem;">Course</p>
+                        <p style="font-weight: 600;" th:text="${absence.course.name}"></p>
+                    </div>
+                    <div>
+                        <p style="color: #6c757d; margin-bottom: 0.25rem;">Date</p>
+                        <p style="font-weight: 600;" th:text="${#temporals.format(absence.date, 'dd/MM/yyyy')}"></p>
+                    </div>
+                    <div>
+                        <p style="color: #6c757d; margin-bottom: 0.25rem;">Status</p>
+                        <div>
+                            <span th:if="${absence.justified}" class="badge badge-success">Justified</span>
+                            <span th:unless="${absence.justified}" class="badge badge-warning">Not Justified</span>
+
+                            <span th:if="${absence.validated}" class="badge badge-success">Validated</span>
+                            <span th:if="${absence.rejected}" class="badge badge-danger">Rejected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${absence.justificationText != null}" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.75rem;">
+                    📝 Justification Explanation
+                </h3>
+                <div
+                    style="background: white; border-left: 4px solid var(--accent-gold); padding: 1rem; border-radius: 4px;">
+                    <p th:text="${absence.justificationText}" style="white-space: pre-wrap;"></p>
+                </div>
+            </div>
+
+            <div th:if="${absence.documentPath != null}" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.75rem;">
+                    📄 Supporting Document
+                </h3>
+                <a th:href="@{/admin/absence/download/{id}(id=${absence.id})}" class="btn btn-primary"
+                    style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>⬇️</span> Download Document
+                </a>
+            </div>
+
+            <div th:if="${absence.rejected && absence.rejectionReason != null}" class="alert alert-error">
+                <strong>❌ Rejection Reason:</strong>
+                <p th:text="${absence.rejectionReason}" style="margin-top: 0.5rem;"></p>
+            </div>
+
+            <div style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 2px solid #e9ecef;">
+                <a th:if="${!absence.validated && !absence.rejected}"
+                    th:href="@{/admin/absence/validate/{id}(id=${absence.id})}" class="btn btn-success">
+                    ✅ Validate Absence
+                </a>
+
+                <a th:if="${!absence.rejected}" th:href="@{/admin/absence/reject/{id}(id=${absence.id})}"
+                    class="btn btn-danger">
+                    ❌ Reject Absence
+                </a>
+
+                <span th:if="${absence.validated}" class="badge badge-success"
+                    style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+                    ✅ Already Validated
+                </span>
+
+                <span th:if="${absence.rejected}" class="badge badge-danger"
+                    style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+                    ❌ Already Rejected
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

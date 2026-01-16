@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>📚 Student Dashboard</h1>
+            <p>View and manage your absences</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/student">My Absences</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>My Absences</h2>
+            </div>
+
+            <div th:if="${#lists.isEmpty(absences)}" class="empty-state">
+                <div class="empty-state-icon">✓</div>
+                <p><strong>Great! No absences found.</strong></p>
+                <p style="color: #6c757d;">You have a perfect attendance record.</p>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(absences)}" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Course</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="absence : ${absences}">
+                            <td th:text="${#temporals.format(absence.date, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${absence.course.name}"></td>
+                            <td>
+                                <span th:if="${absence.justified}" class="badge badge-success">
+                                    ✓ Justified
+                                </span>
+                                <span th:unless="${absence.justified}" class="badge badge-warning">
+                                    ⏳ Not Justified
+                                </span>
+                            </td>
+                            <td>
+                                <a th:if="${!absence.justified}"
+                                    th:href="@{/student/absence/{id}/justify(id=${absence.id})}" class="btn btn-link">
+                                    Justify
+                                </a>
+                                <span th:if="${absence.justified}" style="color: #6c757d;">—</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

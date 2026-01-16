@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate Absences</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>⚙️ Validate Student Absences</h1>
+            <p>Review and approve or reject absence requests</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/admin">← Back to Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>All Absences</h2>
+            </div>
+
+            <div th:if="${#lists.isEmpty(absences)}" class="empty-state">
+                <div class="empty-state-icon">✓</div>
+                <p><strong>No absences to validate</strong></p>
+                <p style="color: #6c757d;">All absences have been processed.</p>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(absences)}" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Justified</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="absence : ${absences}">
+                            <td th:text="${#temporals.format(absence.date, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${absence.student.firstName + ' ' + absence.student.lastName}"></td>
+                            <td th:text="${absence.course.name}"></td>
+                            <td>
+                                <span th:if="${absence.justified}" class="badge badge-success">
+                                    ✓ Yes
+                                </span>
+                                <span th:unless="${absence.justified}" class="badge badge-warning">
+                                    ⏳ No
+                                </span>
+                            </td>
+                            <td>
+                                <span th:if="${absence.validated}" class="badge badge-success">
+                                    ✅ Validated
+                                </span>
+                                <span th:if="${absence.rejected}" class="badge badge-danger">
+                                    ❌ Rejected
+                                </span>
+                                <span th:if="${!absence.validated && !absence.rejected}" class="badge badge-info">
+                                    ⏳ Pending
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <a th:if="${absence.justified}"
+                                        th:href="@{/admin/absence/{id}/details(id=${absence.id})}" class="btn btn-link"
+                                        style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                        👁️ View Details
+                                    </a>
+
+                                    <a th:if="${!absence.validated && !absence.rejected}"
+                                        th:href="@{/admin/absence/validate/{id}(id=${absence.id})}"
+                                        class="btn btn-success" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                        ✓ Validate
+                                    </a>
+
+                                    <a th:if="${!absence.rejected}"
+                                        th:href="@{/admin/absence/reject/{id}(id=${absence.id})}" class="btn btn-danger"
+                                        style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                        ✗ Reject
+                                    </a>
+
+                                    <span th:if="${!absence.justified}" style="color: #6c757d; font-size: 0.9rem;">
+                                        —
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

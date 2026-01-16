@@ -1,0 +1,25 @@
+<h2>My Absences</h2>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Course</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="a : ${absences}">
+        <td th:text="${a.date}"></td>
+        <td th:text="${a.course.name}"></td>
+        <td>
+            <span th:if="${a.validated}">✅ Validated</span>
+            <span th:if="${!a.validated}">⏳ Pending</span>
+        </td>
+        <td>
+            <a th:if="${!a.justified}"
+               th:href="@{/student/absence/{id}/justify(id=${a.id})}">
+                Justify
+            </a>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Absence</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>👨‍🏫 Mark Student Absence</h1>
+            <p>Record a new absence</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/teacher">← Back to Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>New Absence Form</h2>
+            </div>
+
+            <form th:action="@{/teacher/absence/save}" method="post">
+                <div class="form-group">
+                    <label for="studentId">Student *</label>
+                    <select id="studentId" name="studentId" class="form-control" required>
+                        <option value="">-- Select a student --</option>
+                        <option th:each="student : ${students}" th:value="${student.id}"
+                            th:text="${student.firstName + ' ' + student.lastName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="courseId">Course *</label>
+                    <select id="courseId" name="courseId" class="form-control" required>
+                        <option value="">-- Select a course --</option>
+                        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">
+                        ✓ Save Absence
+                    </button>
+                    <a href="/teacher" class="btn btn-link">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

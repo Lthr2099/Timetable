@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>👨‍🏫 Teacher Dashboard</h1>
+            <p>Manage student absences</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/teacher">Home</a>
+            <a href="/teacher/absence/new">➕ Mark Absence</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>📝 Mark Absence</h3>
+                <p style="color: #6c757d; margin-top: 0.5rem;">Record student absences for your courses</p>
+                <a href="/teacher/absence/new" class="btn btn-primary" style="margin-top: 1rem;">
+                    Create New Absence
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>📊 Your Courses</h3>
+                <p style="color: #6c757d; margin-top: 0.5rem;">Manage all your assigned courses</p>
+                <div class="stat">5</div>
+                <p style="font-size: 0.9rem; color: #6c757d;">Active Courses</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

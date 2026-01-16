@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>⚙️ Admin Dashboard</h1>
+            <p>System administration</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-menu">
+            <a href="/admin">Home</a>
+            <a href="/admin/absences">📋 Validate Absences</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>✅ Validate Absences</h3>
+                <p style="color: #6c757d; margin-top: 0.5rem;">Review and validate student absences</p>
+                <a href="/admin/absences" class="btn btn-primary" style="margin-top: 1rem;">
+                    View Absences
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>📊 System Overview</h3>
+                <p style="color: #6c757d; margin-top: 0.5rem;">Monitor system activity</p>
+                <div class="stat">—</div>
+                <p style="font-size: 0.9rem; color: #6c757d;">Total Users</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

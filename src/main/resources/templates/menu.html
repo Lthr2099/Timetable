@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav>
+    <a th:href="@{/}">Home</a>
+	<a th:href="@{/student}">Student</a>
+	<a th:href="@{/teacher}">Teacher</a>
+	<a th:href="@{/admin}">Admin</a>
+</nav>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+<hr>
+
+</body>
+</html>

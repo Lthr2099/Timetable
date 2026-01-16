@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Justify Absence</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+  <div class="header">
+    <div class="container">
+      <h1>📚 Justify My Absence</h1>
+      <p>Provide explanation and supporting documents</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="nav-menu">
+      <a href="/student">← Back to My Absences</a>
+      <a href="/logout">Logout</a>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Absence Details</h2>
+      </div>
+
+      <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+        <p><strong>Date:</strong> <span th:text="${#temporals.format(absence.date, 'dd/MM/yyyy')}"></span></p>
+        <p><strong>Course:</strong> <span th:text="${absence.course.name}"></span></p>
+      </div>
+
+      <form th:action="@{/student/absence/{id}/justify(id=${absence.id})}" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label for="justificationText">Justification Explanation *</label>
+          <textarea id="justificationText" name="justificationText" class="form-control" rows="5"
+            placeholder="Please explain the reason for your absence (minimum 10 characters)..." required minlength="10"
+            style="resize: vertical;"></textarea>
+          <small style="color: #6c757d;">Provide a detailed explanation for your absence</small>
+        </div>
+
+        <div class="form-group">
+          <label for="document">Supporting Document (Optional)</label>
+          <input type="file" id="document" name="document" class="form-control" accept=".pdf,.jpg,.jpeg,.png"
+            style="padding: 0.5rem;">
+          <small style="color: #6c757d;">
+            📄 Upload medical certificate or proof (PDF, JPG, PNG - Max 5MB)
+          </small>
+        </div>
+
+        <div class="alert alert-info">
+          ℹ️ Your justification will be reviewed by an administrator who will validate or reject it.
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-success">
+            ✓ Submit Justification
+          </button>
+          <a href="/student" class="btn btn-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
